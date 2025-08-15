@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .signup-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 1rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #976fc0;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: rebeccapurple;
+      }
+
+      p {
+        margin: 0.5rem 0;
+      }
+
+      .error {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      .success {
+        color: green;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h1>Signup</h1>
+
+      <% if (errors) { %>
+        <ul>
+            <% errors.forEach((error) => { %>
+                <li class="error"><%= error.msg %></li>
+            <% }) %>
+        </ul>
+      <% } %>
+
+      <% if (typeof success !== "undefined" && success) { %>
+        <p class="success"><%= success %></p>
+      <% } %>
+
+      <form action="/signup" method="POST">
+        <input
+          type="text"
+          name="first_name"
+          placeholder="First Name"
+        />
+        <input
+          type="text"
+          name="second_name"
+          placeholder="Second Name"
+        />
+        <input 
+          type="text"
+          name="username"
+          placeholder="Username"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <input
+          type="password"
+          name="verify_password"
+          placeholder="Verify Password"
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </body>
+</html>
