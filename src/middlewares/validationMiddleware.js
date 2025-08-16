@@ -39,4 +39,25 @@ const validateSignup = [
   }
 ];
 
-module.exports = { validateSignup };
+const validateLogin = [
+  body("email")
+    .trim()
+    .isEmail().withMessage("Please enter a valid email"),
+
+  body("password")
+    .notEmpty().withMessage("Password is required"),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("login", { 
+        errors: errors.array(), 
+        success: null 
+      });
+    }
+    next();
+  }
+];
+
+
+module.exports = { validateSignup, validateLogin };
