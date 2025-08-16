@@ -79,5 +79,16 @@ const handleLogin = async (req, res, next) => {
         next(err);
     }
 };
+const handleLogout = (req, res, next) => {
+  try {
+    req.session.destroy(err => {
+      if (err) return next(err);  // If there’s an error destroying the session
+      res.redirect('/');           // Redirect to home page after logout
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = { signupPage, loginPage, handleLogin, handleSignup };
+
+module.exports = { signupPage, loginPage, handleLogin, handleSignup, handleLogout };
