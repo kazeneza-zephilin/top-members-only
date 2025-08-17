@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Message</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 2rem;
+                background: #f5f5f5;
+            }
+            .form-container {
+                max-width: 500px;
+                margin: auto;
+                background: white;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            input,
+            textarea {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 1rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            button {
+                padding: 10px 18px;
+                background: #a74fff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: rebeccapurple;
+            }
+            .errors {
+                color: red;
+                margin-bottom: 1rem;
+            }
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-container">
+            <h2>Edit Message</h2>
+
+            <% if (errors && errors.length > 0) { %>
+            <div class="errors">
+                <% errors.forEach(err => { %>
+                <p><%= err.msg %></p>
+                <% }) %>
+            </div>
+            <% } %>
+
+            <form action="/messages/<%= message.id %>" method="POST">
+                <input
+                    type="text"
+                    name="title"
+                    value="<%= message.title %>"
+                    placeholder="Title"
+                />
+                <textarea name="message" rows="5" placeholder="Message">
+<%= message.message %></textarea
+                >
+                <button type="submit">Update Message</button>
+                <button><a class="back-link" href="/"> cancel</a></button>
+            </form>
+        </div>
+    </body>
+</html>

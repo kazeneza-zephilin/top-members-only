@@ -29,7 +29,7 @@ const handleSignup = async (req, res, next) => {
             [first_name, second_name, username, email, hashedPassword]
         );
         success = "User created successfully";
-        res.render("signup", { errors, success });
+        res.redirect("/login");
     } catch (error) {
         next(error);
     }
@@ -67,28 +67,35 @@ const handleLogin = async (req, res, next) => {
             errors = [{ msg: "Invalid email or password" }];
             return res.render("login", { errors, success });
         }
-
+        //creating session
         req.session.user = {
             id: user.id,
             username: user.username,
             email: user.email,
         };
-        res.redirect("/");
-
+        req.session.save((err) => {
+            if (err) return next(err);
+            res.redirect("/");
+        });
     } catch (err) {
         next(err);
     }
 };
 const handleLogout = (req, res, next) => {
-  try {
-    req.session.destroy(err => {
-      if (err) return next(err);  // If there’s an error destroying the session
-      res.redirect('/');           // Redirect to home page after logout
-    });
-  } catch (error) {
-    next(error);
-  }
+    try {
+        req.session.destroy((err) => {
+            if (err) return next(err); // If there’s an error destroying the session
+            res.redirect("/"); // Redirect to home page after logout
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
-
-module.exports = { signupPage, loginPage, handleLogin, handleSignup, handleLogout };
+module.exports = {
+    signupPage,
+    loginPage,
+    handleLogin,
+    handleSignup,
+    handleLogout,
+};

@@ -59,5 +59,62 @@ const validateLogin = [
   }
 ];
 
+const validateMessage = [
+  body("title")
+    .trim()
+    .notEmpty()
+    .withMessage("Title is required")
+    .isLength({ max: 100 })
+    .withMessage("Title cannot exceed 100 characters"),
 
-module.exports = { validateSignup, validateLogin };
+  body("message")
+    .trim()
+    .notEmpty()
+    .withMessage("Message content is required")
+    .isLength({ max: 500 })
+    .withMessage("Message cannot exceed 500 characters"),
+
+  // Middleware to handle validation result
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Send errors and old input back to create-message view
+      return res.render("create-message", { 
+        errors: errors.array(),
+        oldInput: {
+          title: req.body.title,
+          message: req.body.message
+        }
+      });
+    }
+    next();
+  }
+];
+
+
+const validateMembership = [
+  body("hint_code")
+    .trim()
+    .notEmpty().withMessage("Hint code is required")
+    .custom((value) => {
+      if (value !== "becomeOne") {
+        throw new Error("Invalid hint code");
+      }
+      return true;
+    }),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("index", { 
+        errors: errors.array(),
+        user: req.user, 
+        messages: req.messages 
+      });
+    }
+    next();
+  }
+];
+
+
+module.exports = { validateSignup, validateLogin, validateMessage, validateMembership };
